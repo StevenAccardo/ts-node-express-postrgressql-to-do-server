@@ -1,6 +1,6 @@
 # basic-express-api-boilerplate
 
-Contains a basic boilerplate for an express REST API which includes.
+Contains a basic boilerplate for an express REST API which includes:
 
 1. ES module type.
 2. Routes, Controllers, Middleware, and Models directories.
