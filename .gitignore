@@ -1,5 +1,6 @@
 #Ignore these
 node_modules
+build
 .env.*
 .vscode
 .eslintcache
