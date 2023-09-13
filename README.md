@@ -1,6 +1,6 @@
 # ts-express-rest-api-boilerplate
 
-Contains a basic boilerplate for an TypeScript express REST API which includes:
+Contains a basic boilerplate for an TypeScript express REST API with JWT auth which includes:
 
 1. ES module type.
 2. Routes, Controllers, Middleware, and Models directories.
@@ -12,3 +12,4 @@ Contains a basic boilerplate for an TypeScript express REST API which includes:
 8. ESLint using Standard config and Prettier for linting and formatting.
 9. Jest for unit testing.
 10. TypeScript for strong typing.
+11. Signup and signin auth endpoints, JWT signing and verifying, PG DB created leveraging Sequelize ORM with user table/model created.
