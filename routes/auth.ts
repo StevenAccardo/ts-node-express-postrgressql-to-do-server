@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
 
-import { signup, signin } from '../controllers/auth';
-import { User } from '../models/user';
+import { signup, signin } from '../controllers/auth.js';
+import { User } from '../models/user.js';
 
 const authRoutes = Router();
 
+// Using express-validator to help add validation, and return error messages when requests do not meet validation requirements.
 authRoutes.post(
     '/signup',
     body('email')

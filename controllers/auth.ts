@@ -1,10 +1,10 @@
 import type { Request, Response, NextFunction } from 'express';
 
 import { hash, compare } from 'bcrypt';
-import { sign } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator';
 
-import { User } from '../models/user';
+import { User } from '../models/user.js';
 
 export const signup = async (
     req: Request,
@@ -61,7 +61,7 @@ export const signin = async (
             return;
         }
 
-        const token = sign({ id: user.id }, `${process.env.SECRET}`, {
+        const token = jwt.sign({ id: user.id }, `${process.env.SECRET}`, {
             expiresIn: process.env.JWT_EXP_TIME,
         });
 

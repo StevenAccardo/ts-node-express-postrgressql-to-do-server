@@ -1,1 +1,7 @@
+#Ignore these
 node_modules
+.env
+.vscode
+.eslintcache
+
+#Do not ignore these

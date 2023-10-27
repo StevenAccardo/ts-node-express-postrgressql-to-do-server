@@ -1,7 +1,7 @@
 #Ignore these
 node_modules
 build
-.env.*
+.env
 .vscode
 .eslintcache
 

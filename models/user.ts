@@ -1,7 +1,7 @@
 import { INTEGER, STRING } from 'sequelize';
 import type { Optional, Model } from 'sequelize';
 
-import sequelize from '../util/database';
+import sequelize from '../util/database.js';
 
 interface UserAttributes {
     id: number;

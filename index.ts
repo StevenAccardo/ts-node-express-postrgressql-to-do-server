@@ -1,9 +1,5 @@
-/* eslint-disable import/first */
 // Need to have env vars in entire application.
-import dotenv from 'dotenv';
-if (process.env.NODE_ENV !== 'production') {
-    dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
-}
+import 'dotenv/config';
 
 import express, {
     type Express,
@@ -13,23 +9,14 @@ import express, {
     type ErrorRequestHandler,
 } from 'express';
 
-import sequelize from './util/database';
+import { syncDB } from './util/database.js';
 
-import authRoutes from './routes/auth';
+import authRoutes from './routes/auth.js';
 
-(async function () {
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-        if (process.env.NODE_ENV !== 'production') {
-            await sequelize.sync({ alter: true });
-        }
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
-})().catch((err) => {
-    console.log(err);
-});
+// Uses top-level await to sync the database before the application starts listening on the port.
+// I wanted to makes sure this was done before the application starts, but that isn't a huge issue, looking back
+// as it will only happen in development anyway.
+await syncDB();
 
 const app: Express = express();
 app.use(express.json());
@@ -41,6 +28,7 @@ app.get('/', (req: Request, res: Response, next: NextFunction): void => {
     res.status(200).send('Server is working!');
 });
 
+// Custom Express error handler that will handle any unexpected errors thrown.https://expressjs.com/en/guide/error-handling.html
 app.use(
     (
         error: ErrorRequestHandler,
@@ -48,6 +36,11 @@ app.use(
         res: Response,
         next: NextFunction,
     ) => {
+        // Hands control to express default error handler if the headers have already been sent to the client. https://expressjs.com/en/guide/error-handling.html
+        if (res.headersSent) {
+            next(error);
+            return;
+        }
         console.log(error);
         res.status(500).json({ message: 'There was an unknown server error.' });
     },

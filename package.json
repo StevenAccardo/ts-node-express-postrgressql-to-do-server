@@ -5,7 +5,7 @@
         "npm": "10.1.0",
         "node": "18.17.1"
     },
-    "type": "commonjs",
+    "type": "module",
     "description": "A boilerplate for setting up a basic express API server with TypeScript.",
     "main": "index.ts",
     "scripts": {
