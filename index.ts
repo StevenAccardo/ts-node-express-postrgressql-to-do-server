@@ -8,6 +8,7 @@ import express, {
     type NextFunction,
     type ErrorRequestHandler,
 } from 'express';
+import cors from 'cors';
 
 import { syncDB } from './util/database.js';
 
@@ -19,6 +20,7 @@ import authRoutes from './routes/auth.js';
 await syncDB();
 
 const app: Express = express();
+app.use(cors());
 app.use(express.json());
 
 app.use(authRoutes);
