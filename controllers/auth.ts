@@ -6,6 +6,7 @@ import { validationResult } from 'express-validator';
 
 import { User } from '../models/user.js';
 
+// Checks for any validation errors. If none, compare the hashed password on the request against that stored for the user in the DB. If they match, create an access token and return it to the client.
 export const signup = async (
     req: Request,
     res: Response,
@@ -33,6 +34,7 @@ export const signup = async (
     res.status(201).json({ message: 'New user successfully created.' });
 };
 
+// Checks for any validation errors. If none, create a new user record in the DB, storing the username and the hashed password.
 export const signin = async (
     req: Request,
     res: Response,

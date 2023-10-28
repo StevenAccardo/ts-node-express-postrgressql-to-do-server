@@ -18,6 +18,7 @@ interface UserInstance
     updatedAt?: Date;
 }
 
+// Leverage sequelize to create the user table for the PG DB
 export const User = sequelize.define<UserInstance>('user', {
     id: {
         type: INTEGER,
