@@ -7,10 +7,13 @@ const sequelize = new Sequelize(process.env.DB_URI ?? '');
 // but since this is a portfolio application, I am leaving it to make development easier.
 export const syncDB = async function (): Promise<void> {
     try {
+        // Test connection to DB
         await sequelize.authenticate();
         console.log('Connection has been established successfully.');
+        // Declare association between tables. One user can have many tasks.
+
         if (process.env.NODE_ENV !== 'production') {
-            await sequelize.sync({ alter: true });
+            await sequelize.sync({ force: true });
         }
     } catch (error) {
         console.error('Unable to connect to the database:', error);

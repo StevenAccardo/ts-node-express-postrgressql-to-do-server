@@ -4,7 +4,7 @@ import { hash, compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator';
 
-import { User } from '../models/user.js';
+import { User } from '../models/index.js';
 
 // Checks for any validation errors. If none, compare the hashed password on the request against that stored for the user in the DB. If they match, create an access token and return it to the client.
 export const signup = async (

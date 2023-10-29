@@ -13,6 +13,7 @@ import cors from 'cors';
 import { syncDB } from './util/database.js';
 
 import authRoutes from './routes/auth.js';
+import taskRoutes from './routes/task.js';
 
 // Uses top-level await to sync the database before the application starts listening on the port.
 // I wanted to makes sure this was done before the application starts, but that isn't a huge issue, looking back
@@ -24,6 +25,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(authRoutes);
+app.use(taskRoutes);
 
 app.get('/', (req: Request, res: Response, next: NextFunction): void => {
     console.log('Server is working!');
