@@ -1,9 +1,18 @@
 import { Router } from 'express';
-// import { body } from "express-validator";
+
+// import { authMiddleware } from '../middleware/auth.js';
+import {
+    validateCreateTask,
+    reporter,
+    validateUpdateTask,
+    validateDeleteTask,
+    validateGetTasks,
+} from '../middleware/task-validation.js';
 import {
     createTask,
     deleteTask,
     editTask,
+    getAllTasks,
     getCompletedTasks,
     getPendingTasks,
 } from '../controllers/task.js';
@@ -11,14 +20,21 @@ import {
 const taskRoutes = Router();
 
 // Create a task
-taskRoutes.post('/task', createTask);
+taskRoutes.post('/task', validateCreateTask(), reporter, createTask);
 
-taskRoutes.put('/task:id', editTask);
+taskRoutes.put('/task/:taskId', validateUpdateTask(), reporter, editTask);
 
-taskRoutes.delete('/task:id', deleteTask);
+taskRoutes.delete('/task/:taskId', validateDeleteTask(), reporter, deleteTask);
 
-taskRoutes.get('/tasks/pending', getPendingTasks);
+taskRoutes.get('/tasks', validateGetTasks(), reporter, getAllTasks);
 
-taskRoutes.get('/tasks/completed', getCompletedTasks);
+taskRoutes.get('/tasks/pending', validateGetTasks(), reporter, getPendingTasks);
+
+taskRoutes.get(
+    '/tasks/completed',
+    validateGetTasks(),
+    reporter,
+    getCompletedTasks,
+);
 
 export default taskRoutes;

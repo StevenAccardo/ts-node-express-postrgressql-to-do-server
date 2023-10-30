@@ -27,6 +27,15 @@ export const deleteTask = async (
     res.sendStatus(200);
 };
 
+export const getAllTasks = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+): Promise<void> => {
+    console.log('get-all-tasks');
+    res.sendStatus(200);
+};
+
 export const getPendingTasks = async (
     req: Request,
     res: Response,

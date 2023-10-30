@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { verify } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 // Middleware for verifying the access token is valid before making any secondary requests to protected endpoints.
 export const authMiddleware = (
@@ -15,7 +15,7 @@ export const authMiddleware = (
 
     // Verify the token using the secret and pull the id off of the token body, and place it on the request body to be used by other endpoints after the middleware.
     try {
-        const decodedPayload: any = verify(
+        const decodedPayload: any = jwt.verify(
             token,
             process.env.JWT_SECRET as string,
         );
