@@ -10,6 +10,7 @@ export const authMiddleware = (
     // Pull off the authorization header, take the second portion of the string which will contain the access token as a string.
     const authHeader = req.headers.authorization;
     const token = authHeader?.split(' ')[1];
+    console.log(token);
     if (token == null)
         return res.status(401).json({ message: 'Access token required.' });
 
@@ -17,9 +18,9 @@ export const authMiddleware = (
     try {
         const decodedPayload: any = jwt.verify(
             token,
-            process.env.JWT_SECRET as string,
+            process.env.JWT_SECRET as jwt.Secret,
         );
-        req.body.userId = decodedPayload.id;
+        req.body.userId = parseInt(decodedPayload.id);
     } catch (error) {
         console.log(error);
         return res.status(401).json({ message: 'Invalid access token.' });
