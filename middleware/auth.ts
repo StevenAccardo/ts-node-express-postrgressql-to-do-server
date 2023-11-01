@@ -20,7 +20,7 @@ export const authMiddleware = (
             token,
             process.env.JWT_SECRET as jwt.Secret,
         );
-        req.body.userId = parseInt(decodedPayload.id);
+        res.locals.userId = parseInt(decodedPayload.id);
     } catch (error) {
         console.log(error);
         return res.status(401).json({ message: 'Invalid access token.' });

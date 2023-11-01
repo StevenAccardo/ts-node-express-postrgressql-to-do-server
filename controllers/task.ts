@@ -8,15 +8,15 @@ export const createTask = async (
     next: NextFunction,
 ): Promise<void> => {
     try {
-        // Pull the userId off of the req.body that was placed there by the authMiddleware after verifying the accessToken.
-        const userId: number = req.body.userId;
+        // Pull the userId off of the res.locals that was placed there by the authMiddleware after verifying the accessToken.
+        const decodedUserId: number = res.locals.userId;
         // Pull the task property off of the req.body.
         const task: string = req.body.task;
         // Create a new task associated to the userId using the task property
-        const createdTask = await Task.create({ userId, task });
+        const createdTask = await Task.create({ userId: decodedUserId, task });
         // Return the newly created task to the client
         console.log(
-            `Task with id: ${createdTask.id} created for user with id: ${userId}.`,
+            `Task with id: ${createdTask.id} created for user with id: ${decodedUserId}.`,
         );
         res.status(201).json(createdTask);
     } catch (error) {
@@ -32,15 +32,13 @@ export const editTask = async (
 ): Promise<void> => {
     try {
         // Pull the userId off of the req.body object that was placed there by the authMiddleware after verifying the accessToken.
-        const reqUserId: number = req.body.userId;
+        const decodedUserId: number = res.locals.userId;
         // Pull the taskId off of the req.params object
         const taskId: number = parseInt(req.params.taskId);
         // Query for the task by task.id and userId
         const task: Task | null = await Task.findOne({
-            where: { id: taskId, userId: reqUserId },
+            where: { id: taskId, userId: decodedUserId },
         });
-
-        // Pull properties off of req.body to update the task. Need to pull id
 
         // If task exists and userId matches userId from token decode, then update record
         if (task == null) {
@@ -87,7 +85,7 @@ export const editTask = async (
         const updatedTask = await task.update(updateObj);
         // Return updated record
         console.log(
-            `Task with id: ${updatedTask.id} edited for user with id: ${reqUserId}.`,
+            `Task with id: ${updatedTask.id} edited for user with id: ${decodedUserId}.`,
         );
         res.status(200).json(updatedTask);
     } catch (error) {
@@ -101,8 +99,33 @@ export const deleteTask = async (
     res: Response,
     next: NextFunction,
 ): Promise<void> => {
-    console.log('delete /task');
-    res.sendStatus(200);
+    try {
+        // Pull the userId off of the res.locals object that was placed there by the authMiddleware after verifying the accessToken.
+        const decodedUserId: number = res.locals.userId;
+        // Pull the taskId off of the req.params object
+        const taskId: number = parseInt(req.params.taskId);
+
+        // Delete task from DB
+        const numOfDeletedRows = await Task.destroy({
+            where: { id: taskId, userId: decodedUserId },
+        });
+
+        if (numOfDeletedRows === 0) {
+            res.status(400).json({
+                message:
+                    'Unable to delete requested task. Please check your request and try again.',
+            });
+            return;
+        }
+
+        console.log(
+            `Task with id: ${taskId} deleted for user with id: ${decodedUserId}.`,
+        );
+        res.sendStatus(200);
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
 };
 
 export const getAllTasks = async (
