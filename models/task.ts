@@ -13,7 +13,7 @@ class Task extends Model<InferAttributes<Task>, InferCreationAttributes<Task>> {
     declare userId: ForeignKey<User['id']>;
     declare task: string;
     declare completed: CreationOptional<boolean>;
-    declare completed_timestamp: CreationOptional<Date>;
+    declare completed_timestamp: CreationOptional<Date | null>;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
 }
