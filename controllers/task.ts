@@ -133,8 +133,31 @@ export const getAllTasks = async (
     res: Response,
     next: NextFunction,
 ): Promise<void> => {
-    console.log('get-all-tasks');
-    res.sendStatus(200);
+    try {
+        // Pull the userId off of the res.locals object that was placed there by the authMiddleware after verifying the accessToken.
+        const decodedUserId: number = res.locals.userId;
+
+        // Confirm that the query param is not undefined and is a single string. If either of those is false then set the default order to desc.
+        const dbOrder =
+            req.query.order !== undefined && typeof req.query.order === 'string'
+                ? req.query.order
+                : 'desc';
+
+        const pendingTasks = await Task.findAll({
+            where: { userId: decodedUserId, completed: false },
+            order: [['createdAt', dbOrder]],
+        });
+
+        const completedTasks = await Task.findAll({
+            where: { userId: decodedUserId, completed: true },
+            order: [['createdAt', dbOrder]],
+        });
+
+        res.status(200).json({ pendingTasks, completedTasks });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
 };
 
 export const getPendingTasks = async (
@@ -142,8 +165,26 @@ export const getPendingTasks = async (
     res: Response,
     next: NextFunction,
 ): Promise<void> => {
-    console.log('get-pending');
-    res.sendStatus(200);
+    try {
+        // Pull the userId off of the res.locals object that was placed there by the authMiddleware after verifying the accessToken.
+        const decodedUserId: number = res.locals.userId;
+
+        // Confirm that the query param is not undefined and is a single string. If either of those is false then set the default order to desc.
+        const dbOrder =
+            req.query.order !== undefined && typeof req.query.order === 'string'
+                ? req.query.order
+                : 'desc';
+
+        const pendingTasks = await Task.findAll({
+            where: { userId: decodedUserId, completed: false },
+            order: [['createdAt', dbOrder]],
+        });
+
+        res.status(200).json({ pendingTasks });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
 };
 
 export const getCompletedTasks = async (
@@ -151,6 +192,24 @@ export const getCompletedTasks = async (
     res: Response,
     next: NextFunction,
 ): Promise<void> => {
-    console.log('get-completed');
-    res.sendStatus(200);
+    try {
+        // Pull the userId off of the res.locals object that was placed there by the authMiddleware after verifying the accessToken.
+        const decodedUserId: number = res.locals.userId;
+
+        // Confirm that the query param is not undefined and is a single string. If either of those is false then set the default order to desc.
+        const dbOrder =
+            req.query.order !== undefined && typeof req.query.order === 'string'
+                ? req.query.order
+                : 'desc';
+
+        const completedTasks = await Task.findAll({
+            where: { userId: decodedUserId, completed: true },
+            order: [['createdAt', dbOrder]],
+        });
+
+        res.status(200).json({ completedTasks });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
 };

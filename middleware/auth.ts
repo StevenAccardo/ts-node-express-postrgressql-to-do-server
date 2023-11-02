@@ -10,7 +10,7 @@ export const authMiddleware = (
     // Pull off the authorization header, take the second portion of the string which will contain the access token as a string.
     const authHeader = req.headers.authorization;
     const token = authHeader?.split(' ')[1];
-    console.log(token);
+
     if (token == null)
         return res.status(401).json({ message: 'Access token required.' });
 
