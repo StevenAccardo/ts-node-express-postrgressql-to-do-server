@@ -4,7 +4,7 @@
 
 ### This is a portfolio piece to show general programming, containerization, and deployment. So it is not a completely polished piece.
 
-####Tech Stack Used:
+#### Tech Stack Used:
 
 -   JavaScript
 -   TypeScript
@@ -38,7 +38,7 @@
 1. Dockerfile for containerization.
 1. ESLint using Standard config and Prettier for linting and formatting.
 
-#### Acknowleded Improvement Possabilites
+#### Acknowleded Improvement Possibilites
 
 Since this is a portfolio piece, there is room for improvement on making this truly production level. I'll list some of them below so that you know I understand them.
 
