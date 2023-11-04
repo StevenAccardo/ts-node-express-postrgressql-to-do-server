@@ -1,0 +1,256 @@
+{
+	"info": {
+		"_postman_id": "36d090a2-4885-4ecc-8022-e4f31d39b9ac",
+		"name": "ts-node-express-postgressql-to-do-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3570393"
+	},
+	"item": [
+		{
+			"name": "/signup signup",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"test@test.com\",\n    \"password\": \"password\",\n    \"confirmPassword\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/signup",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/signin signin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)",
+							"",
+							"pm.environment.set(\"jwt\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"test@test.com\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/signin",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/task createTask",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"task\": \"Finish Project\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/task",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/task:id editTask",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"completed\": true,\n    \"task\": \"Finish Project\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/task/1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"task",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/task:id deleteTask",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/task/1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"task",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/tasks getAllTasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/tasks/?order=desc",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"tasks",
+						""
+					],
+					"query": [
+						{
+							"key": "order",
+							"value": "desc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/tasks/pending getPendingTasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/tasks/pending/?order=desc",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"tasks",
+						"pending",
+						""
+					],
+					"query": [
+						{
+							"key": "order",
+							"value": "desc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/tasks/completed getCompletedTasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/tasks/completed/?order=desc",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"tasks",
+						"completed",
+						""
+					],
+					"query": [
+						{
+							"key": "order",
+							"value": "desc"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -1,0 +1,5 @@
+apps:
+    - name: ts-node-express-postfressql-to-do-app
+      script: ./build/index.js
+      exec_mode: cluster
+      instances: 2
